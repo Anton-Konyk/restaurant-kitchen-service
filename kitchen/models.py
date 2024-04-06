@@ -9,7 +9,7 @@ class Ingredient(models.Model):
         ordering = ["name"]
 
     def __str__(self):
-        return {self.name}
+        return self.name
 
 
 class DishType(models.Model):
@@ -21,7 +21,7 @@ class DishType(models.Model):
         verbose_name_plural = "Dish Types"
 
     def __str__(self):
-        return {self.name}
+        return self.name
 
 
 class Cook(AbstractUser):
@@ -48,4 +48,4 @@ class Dish(models.Model):
         verbose_name_plural = "Dishes"
 
     def __str__(self):
-        return {self.name}
+        return self.name
