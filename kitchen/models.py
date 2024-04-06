@@ -17,6 +17,8 @@ class DishType(models.Model):
 
     class Meta:
         ordering = ["name"]
+        verbose_name = "Dish Type"
+        verbose_name_plural = "Dish Types"
 
     def __str__(self):
         return {self.name}
@@ -40,6 +42,10 @@ class Dish(models.Model):
     dish_type = models.ForeignKey(DishType, on_delete=models.CASCADE)
     cooks = models.ManyToManyField(Cook, related_name="dishes")
     ingredients = models.ManyToManyField(Ingredient, related_name="dishes")
+
+    class Meta:
+        verbose_name = "Dish"
+        verbose_name_plural = "Dishes"
 
     def __str__(self):
         return {self.name}
