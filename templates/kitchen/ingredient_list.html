@@ -25,8 +25,8 @@
                 </div>
                 <div class="col"></div> 
                 <div class="col text-end">
-                  <a href="{% url 'kitchen:index' %}" class="btn btn-primary link-to-page">
-                    Create
+                  <a href="{% url 'kitchen:ingredient-create' %}" class="btn btn-primary link-to-page">
+                    ADD NEW
                   </a>
                 </div> 
               </div>
@@ -50,13 +50,13 @@
                     {{ ingredient.name }}
                   </td>
                   <td>
-                    <a href="{% url 'kitchen:index' %}">  {# {% url 'taxi:manufacturer-update' pk=manufacturer.id %} #}
+                    <a href="{% url 'kitchen:ingredient-update' pk=ingredient.id %}">
                       Update
                     </a>
                   </td>
                   <td>
                     <a style="color: red"
-                       href="{% url 'kitchen:index' %}"> {# {% url 'taxi:manufacturer-delete' pk=manufacturer.id %} #}
+                       href="{% url 'kitchen:ingredient-delete' pk=ingredient.id %}">
                       Delete
                     </a>
                   </td>
@@ -70,9 +70,9 @@
         </div>
         <div class="col-lg-7 text-center mx-auto">
         {% block pagination %}
-      
+
           {% include "includes/pagination.html" %}
-      
+
         {% endblock %}
         </div>
       </div>
