@@ -51,6 +51,7 @@ class IngredientListView(LoginRequiredMixin, generic.ListView):
         context["search_form"] = IngredientSearchForm(
             initial={"name": name}
         )
+        context["search_text"] = name
         return context
 
     def get_queryset(self):
