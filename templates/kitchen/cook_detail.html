@@ -1,0 +1,102 @@
+{% extends "layouts/base_sections.html" %}
+{% load crispy_forms_filters %}
+
+{% load static %}
+
+{% block title %} Material Kit 2 by Creative Tim {% endblock title %}
+
+{% block body %} class="index-page bg-gray-200" {% endblock body %}
+
+{% block content %}
+  <header class="header-2">
+  <div class="page-header min-vh-90 relative"
+       style="background-image: url('{% static 'img/curved-images/cooks_3.png' %}')">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7 text-center mx-auto">
+          <h2 class="text-white pt-4 mt-n5">Username: {{ cook.username }}</h2>
+          <h3 class="text-white">  
+            <p class="text-white h4">
+              <strong>First name:</strong>&nbsp; {{ cook.first_name }} <span style="margin-left: 20px"></span>
+              <strong>Last name:</strong>&nbsp; {{ cook.last_name }}
+            </p>
+            <p class="text-white h4">
+              <strong>Prax year:</strong>&nbsp; {{ cook.prax_years }} <span style="margin-left: 20px"></span>
+              <strong>Is staff:</strong>&nbsp; {{ cook.is_staff }}
+            </p>
+          </h3>
+            <div class="row text-center py-2 mt-3 align-items-center">
+              <div class="input-group mb-2">
+                <div class="col">
+                  {% block search_form %}
+                    {% include "includes/search_cook_form.html" %}
+                  {% endblock %}
+                </div>
+                <div class="col"></div> 
+                <div class="col text-end">
+                  <a href="{% url 'kitchen:cook-update' pk=cook.id %}" class="btn btn-primary link-to-page">
+                    Update
+                  </a>
+                </div> 
+              </div>
+            </div>
+        </div>
+        <div class="col-lg-7 text-center mx-auto">
+        {% block pagination %}
+
+          {% include "includes/pagination.html" %}
+
+        {% endblock %}
+        </div>
+      </div>
+    
+      <div class="row">
+        <div class="col-lg-7 text-center mx-auto">
+          {% if cook.dishes.all %}
+                      <table class="table table-light table-striped table-hover">
+                        <tr class="table table-dark table-hover">
+                          <th>ID</th>
+                          <th>Dish name</th>
+                          <th>Dish Type</th>
+                          <th>Remove</th>
+                        </tr>
+          
+                        {% for dish in cook.dishes.all %}
+                          <tr class="table-striped">
+                            <td>
+                              {{ dish.id }}
+                            </td>
+                            <td>
+                              {{ dish.name }}
+                            </td>
+                            <td>
+                              {{ dish.dish_type }}
+                            </td>
+                            <td>
+                              <a style="color: red"
+                                 href="{% url 'kitchen:toggle-dish-to-cook-assign' pk=dish.id cook_id=cook.id %}">
+                                Remove
+                              </a>
+                            </td>
+                          </tr>
+                        {% endfor %}
+                      </table>
+                      
+                    {% else %}
+                      <div class="row">
+                        <div class="col-lg-7 text-center mx-auto">
+                          <h4 class="text-white pt-4 mt-n5">Now he has no dishes. Please add.</h4>
+                        </div>
+                      </div>
+                    {% endif %}
+    
+        </div>
+      </div>    
+    </div>
+      
+    {% include "includes/waves.html" %}
+  
+  </div>
+</header>
+  
+{% endblock content %}
