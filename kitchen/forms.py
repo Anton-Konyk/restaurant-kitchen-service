@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import (
     AuthenticationForm,
     UsernameField,
@@ -7,9 +8,10 @@ from django.contrib.auth.forms import (
     PasswordChangeForm,
     SetPasswordForm,
 )
+from django.forms import SelectMultiple
 from django.utils.translation import gettext_lazy as _
 
-from kitchen.models import Cook
+from kitchen.models import Cook, Dish
 
 
 class UserLoginForm(AuthenticationForm):
@@ -144,3 +146,53 @@ class DishTypeSearchForm(forms.Form):
         label="",
         widget=forms.TextInput(attrs={"placeholder": "🔎 Search by name"}),
     )
+
+
+class CookSearchForm(forms.Form):
+    username = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Search by Username"
+            }
+        )
+    )
+
+
+class CookDishesSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Search by Username"
+            }
+        )
+    )
+
+
+class CookCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = Cook
+        fields = UserCreationForm.Meta.fields + (
+            "first_name",
+            "last_name",
+            "prax_years",
+        )
+
+
+class CookForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.pk:
+            self.fields['dishes'].initial = self.instance.dishes.all()
+
+    dishes = forms.ModelMultipleChoiceField(queryset=Dish.objects.all(), required=False, widget=SelectMultiple)
+
+    class Meta:
+        model = Cook
+        fields = ['username', 'first_name', 'last_name', 'prax_years', 'dishes', ]
