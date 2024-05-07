@@ -29,35 +29,59 @@
 <section class="pt-3 pb-4" id="count-stats">
   <div class="container">
     <div class="row">
-      <div class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-3 blur shadow-blur">
+      <div class="col-lg-10 z-index-2 border-radius-xl mt-n10 mx-auto py-3 blur shadow-blur">
         <div class="row">
-          <div class="col-md-3 position-relative">
+          <div class="col-md position-relative">
             <div class="p-3 text-center">
               <h1 class="text-gradient text-primary" id="state1" countTo={{ num_ingredients }}>0</h1>
-              <h5 class="mt-3">Ingredients</h5>
+              <h4 class="mt-3">
+                <a href="{% url 'kitchen:ingredient-list' %}" class="dropdown-item border-radius-md">
+                  <span>Ingredients</span>
+                </a>
+              </h4>  
               <p class="text-sm">Amount of available ingredients in the kitchen for cooking</p>
             </div>
             <hr class="vertical dark">
           </div>
-          <div class="col-md-3 position-relative">
+          <div class="col-md position-relative">
             <div class="p-3 text-center">
               <h1 class="text-gradient text-primary" id="state2" countTo={{ num_dish_types }}>0</h1>
-              <h5 class="mt-3">Dish Types</h5>
+              <h4 class="mt-3">
+                <a href="{% url 'kitchen:dish-type-list' %}" class="dropdown-item border-radius-md">
+                  <span>Dish Types</span>
+                </a>
+              </h4>  
               <p class="text-sm">Number of dish types available for use</p>
             </div>
             <hr class="vertical dark">
           </div>
-          <div class="col-md-3 position-relative">
+          <div class="col-md position-relative">
             <div class="p-3 text-center">
               <h1 class="text-gradient text-primary" id="state3" countTo={{ num_cooks }}>0</h1>
-              <h5 class="mt-3">Cooks</h5>
+              <h4 class="mt-3">
+                <a href="{% url 'kitchen:cook-list' %}" class="dropdown-item border-radius-md">
+                  <span>Cooks</span>
+                </a>
+              </h4>  
               <p class="text-sm">Quantity of chefs who can create new dishes and cook existing ones</p>
             </div>
             <hr class="vertical dark">
           </div>
-          <div class="col-md-3 position-relative">
+          <div class="col-md position-relative">
             <div class="p-3 text-center">
-              <h1 class="text-gradient text-primary"> <span id="state4" countTo={{ num_visits }}>0</span>+</h1>
+              <h1 class="text-gradient text-primary" id="state4" countTo={{ num_dishes }}>0</h1>
+              <h4 class="mt-3">
+                <a href="{% url 'kitchen:dish-list' %}" class="dropdown-item border-radius-md">
+                  <span class="ps-3">Dishes</span>
+                </a>
+              </h4>  
+              <p class="text-sm">Quantity of chefs who can create new dishes and cook existing ones</p>
+            </div>
+            <hr class="vertical dark">
+          </div>
+          <div class="col-md position-relative">
+            <div class="p-3 text-center">
+              <h1 class="text-gradient text-primary"> <span id="state5" countTo={{ num_visits }}>0</span>+</h1>
               <h5 class="mt-3">Visitors</h5>
               <p class="text-sm">You are our favorite visitor. One of ...</p>
             </div>
@@ -92,19 +116,27 @@
     }
   }
   if (document.getElementById('state3')) {
-    const countUp1 = new CountUp('state3', document.getElementById("state3").getAttribute("countTo"));
-    if (!countUp1.error) {
-      countUp1.start();
-    } else {
-      console.error(countUp1.error);
-    }
-  }
-  if (document.getElementById('state4')) {
-    const countUp2 = new CountUp('state4', document.getElementById("state4").getAttribute("countTo"));
+    const countUp2 = new CountUp('state3', document.getElementById("state3").getAttribute("countTo"));
     if (!countUp2.error) {
       countUp2.start();
     } else {
       console.error(countUp2.error);
+    }
+  }
+  if (document.getElementById('state4')) {
+    const countUp3 = new CountUp('state4', document.getElementById("state4").getAttribute("countTo"));
+    if (!countUp3.error) {
+      countUp3.start();
+    } else {
+      console.error(countUp3.error);
+    }
+  }
+  if (document.getElementById('state5')) {
+    const countUp4 = new CountUp('state5', document.getElementById("state5").getAttribute("countTo"));
+    if (!countUp4.error) {
+      countUp4.start();
+    } else {
+      console.error(countUp4.error);
     };
   }
 </script>
