@@ -9,7 +9,7 @@
 
 {% block content %}
   <header class="header-2">
-  <div class="page-header min-vh-90 relative"
+  <div class="page-header min-vh-100 relative"
        style="background-image: url('{% static 'img/curved-images/cooks_3.png' %}')">
     <div class="container">
       <div class="row">
@@ -29,7 +29,7 @@
               <div class="input-group mb-2">
                 <div class="col">
                   {% block search_form %}
-                    {% include "includes/search_cook_form.html" %}
+                    {% include "includes/search_form.html" %}
                   {% endblock %}
                 </div>
                 <div class="col"></div> 
@@ -40,13 +40,6 @@
                 </div> 
               </div>
             </div>
-        </div>
-        <div class="col-lg-7 text-center mx-auto">
-        {% block pagination %}
-
-          {% include "includes/pagination.html" %}
-
-        {% endblock %}
         </div>
       </div>
     
@@ -60,8 +53,8 @@
                           <th>Dish Type</th>
                           <th>Remove</th>
                         </tr>
-          
-                        {% for dish in cook.dishes.all %}
+                                                                     
+                        {% for dish in page_obj %}
                           <tr class="table-striped">
                             <td>
                               {{ dish.id }}
@@ -89,9 +82,15 @@
                         </div>
                       </div>
                     {% endif %}
-    
+                    <div>
+                      {% block pagination %}
+
+                        {% include "includes/pagination.html" %}
+
+                      {% endblock %}
+                    </div>
         </div>
-      </div>    
+      </div>
     </div>
       
     {% include "includes/waves.html" %}
