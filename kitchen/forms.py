@@ -8,6 +8,7 @@ from django.contrib.auth.forms import (
     PasswordChangeForm,
     SetPasswordForm,
 )
+from django.core.exceptions import ValidationError
 from django.forms import SelectMultiple
 from django.utils.translation import gettext_lazy as _
 
@@ -161,19 +162,6 @@ class CookSearchForm(forms.Form):
     )
 
 
-class CookDishesSearchForm(forms.Form):
-    name = forms.CharField(
-        max_length=255,
-        required=False,
-        label="",
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Search by Username"
-            }
-        )
-    )
-
-
 class CookCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = Cook
@@ -196,3 +184,29 @@ class CookForm(forms.ModelForm):
     class Meta:
         model = Cook
         fields = ['username', 'first_name', 'last_name', 'prax_years', 'dishes', ]
+
+
+class DishCreationForm(forms.ModelForm):
+
+    class Meta:
+        model = Dish
+        fields = "__all__"
+
+    def clean_price(self):
+        return validate_price(self.cleaned_data["price"])
+
+
+def validate_price(price):
+    if price < 0:
+        raise ValidationError("Price should be a positive value")
+
+    return price
+
+
+class DishSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={"placeholder": "🔎 Search by name"}),
+    )
