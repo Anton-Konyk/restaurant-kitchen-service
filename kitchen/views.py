@@ -7,7 +7,6 @@ from django.contrib.auth.views import (LoginView,
                                        PasswordResetConfirmView,
                                        PasswordContextMixin,
                                        )
-from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.urls import reverse_lazy
@@ -424,7 +423,10 @@ def toggle_assign_dish_to_cook(request, pk, cook_id):
         cook.dishes.remove(pk)
     # else:
     #     cook.dishes.add(pk)
-    return HttpResponseRedirect(reverse_lazy("kitchen:cook-detail", args=[cook.id]))
+    return HttpResponseRedirect(reverse_lazy(
+        "kitchen:cook-detail",
+        args=[cook.id])
+    )
 
 
 @login_required
@@ -434,6 +436,7 @@ def toggle_assign_cook_to_dish(request, pk, dish_id):
         Cook.objects.get(id=pk) in dish.cooks.all()
     ):
         dish.cooks.remove(pk)
-    # else:
-    #     cook.dishes.add(pk)
-    return HttpResponseRedirect(reverse_lazy("kitchen:dish-detail", args=[dish.id]))
+    return HttpResponseRedirect(reverse_lazy(
+        "kitchen:dish-detail",
+        args=[dish.id])
+    )
