@@ -9,7 +9,7 @@
 
 {% block content %}
   <header class="header-2">
-  <div class="page-header min-vh-95 relative"
+  <div class="page-header min-vh-100 relative"
        style="background-image: url('{% static 'img/curved-images/ingredients_2.png' %}')">
     <div class="container">
       <div class="row">
@@ -47,7 +47,7 @@
                     {{ ingredient.id }}
                   </td>
                   <td>
-                    {{ ingredient.name }}
+                    <a href="{{ ingredient.get_absolute_url }}">{{ ingredient.name }}</a>
                   </td>
                   <td>
                     <a href="{% url 'kitchen:ingredient-update' pk=ingredient.id %}">
