@@ -12,6 +12,9 @@ class Ingredient(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse("kitchen:ingredient-detail", kwargs={"pk": self.pk})
+
 
 class DishType(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -23,6 +26,9 @@ class DishType(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("kitchen:dish-type-detail", kwargs={"pk": self.pk})
 
 
 class Cook(AbstractUser):
