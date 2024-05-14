@@ -213,6 +213,7 @@ class CookListView(LoginRequiredMixin, generic.ListView):
 class CookCreateView(LoginRequiredMixin, generic.CreateView):
     model = Cook
     form_class = CookCreationForm
+    success_url = reverse_lazy("kitchen:cook-list")
 
 
 class CookDetailView(LoginRequiredMixin, generic.ListView):
@@ -243,6 +244,7 @@ class CookDetailView(LoginRequiredMixin, generic.ListView):
 class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Cook
     form_class = CookForm
+    success_url = reverse_lazy("kitchen:cook-list")
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -256,7 +258,7 @@ class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class CookDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Cook
-    success_url = reverse_lazy("")
+    success_url = reverse_lazy("kitchen:cook-list")
 
 
 class DishListView(LoginRequiredMixin, generic.ListView):
@@ -286,41 +288,20 @@ class DishCreateView(LoginRequiredMixin, generic.CreateView):
     model = Dish
     template_name = "kitchen/dish_form.html"
     form_class = DishCreationForm
+    success_url = reverse_lazy("kitchen:dish-list")
 
 
 class DishUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Dish
     template_name = "kitchen/dish_form.html"
     form_class = DishCreationForm
+    success_url = reverse_lazy("kitchen:dish-list")
 
 
 class DishDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Dish
     template_name = "kitchen/dish_confirm_delete.html"
     success_url = reverse_lazy("kitchen:dish-list")
-
-
-# class DishDetailView(LoginRequiredMixin, generic.DetailView):
-#     model = Dish
-#     queryset = Dish.objects.all().prefetch_related("cooks")
-#     PAGINATE__BY = 5
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super(DishDetailView, self).get_context_data(**kwargs)
-#         username = self.request.GET.get("username", "")
-#         context["search_text"] = username
-#
-#         cooks = self.object.cooks.filter(username__icontains=username).all()
-#         context["cooks"] = cooks
-#
-#         paginator = Paginator(cooks, DishDetailView.PAGINATE__BY)
-#         page_number = self.request.GET.get("page")
-#         page_obj = paginator.get_page(page_number)
-#         is_paginated = paginator.num_pages > 1
-#         context["is_paginated"] = is_paginated
-#         context["page_obj"] = page_obj
-#
-#         return context
 
 
 class DishDetailView(LoginRequiredMixin, generic.ListView):
