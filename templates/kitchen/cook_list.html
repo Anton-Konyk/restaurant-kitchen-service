@@ -13,7 +13,7 @@
        style="background-image: url('{% static 'img/curved-images/cooks_3.png' %}')">
     <div class="container">
       <div class="row">
-        <div class="col-lg-7 text-center mx-auto">
+        <div class="col-lg-9 text-center mx-auto">
           <h2 class="text-white pt-4 mt-n5">Cook List</h2>
             
             <div class="row text-center py-2 mt-3 align-items-center">
@@ -41,6 +41,8 @@
                 <th>Last name</th>
                 <th>Prax years</th>
                 <th>Dishes</th>
+                <th>Update</th>
+                <th>Delete</th>
               </tr>
 
               {% for cook in cook_list %}
@@ -49,19 +51,30 @@
                     {{ cook.id }}
                   </td>
                   <td>
-                    <a href="{{ cook.get_absolute_url }}">{{ cook.username }} {% if user == cook %} (Me){% endif %}</a>
+                    <a href="{{ cook.get_absolute_url }}">{{ cook.username|slice:":17" }} {% if user == cook %} (Me){% endif %}</a>
                   </td>
                   <td>
-                    {{ cook.first_name }}
+                    {{ cook.first_name|slice:":17" }}
                   </td>
                   <td>
-                    {{ cook.last_name }}
+                    {{ cook.last_name|slice:":17" }}
                   </td>
                   <td>
                     {{ cook.prax_years }}
                   </td>
                   <td>
                     {{ cook.dishes.all.count }}
+                  </td>
+                  <td>
+                    <a href="{% url 'kitchen:cook-update' pk=cook.id %}">
+                      Update
+                    </a>
+                  </td>
+                  <td>
+                    <a style="color: red"
+                       href="{% url 'kitchen:cook-delete' pk=cook.id %}">
+                      Delete
+                    </a>
                   </td>
                 </tr>
               {% endfor %}
