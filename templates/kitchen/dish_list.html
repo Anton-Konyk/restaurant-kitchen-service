@@ -50,13 +50,13 @@
                     {{ dish.id }}
                   </td>
                   <td>
-                    <a href="{{ dish.get_absolute_url }}">{{ dish.name }}</a>
+                    <a href="{{ dish.get_absolute_url }}">{{ dish.name|slice:40 }}</a>
                   </td>
                   <td>
                     {{ dish.price }}
                   </td>
                   <td>
-                    {{ dish.dish_type }}
+                    {{ dish.dish_type|slice:":20" }}
                   </td>
                   <td>
                     {{ dish.cooks.count }}
