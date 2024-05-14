@@ -47,7 +47,7 @@
                     {{ dish.id }}
                   </td>
                   <td>
-                    <a href="{{ dish.get_absolute_url }}">{{ dish.name }}</a>
+                    <a href="{{ dish.get_absolute_url }}">{{ dish.name|slice:55 }}</a>
                   </td>
                   <td>
                     <a href="{% url 'kitchen:dish-type-update' pk=dish.id %}">
