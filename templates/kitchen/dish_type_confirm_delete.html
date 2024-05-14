@@ -14,8 +14,8 @@
        style="background-image: url('{% static 'img/curved-images/type_dishes_2.png' %}')">
     <div class="container">
       <div class="row">
-        <div class="col-lg-7 text-center mx-auto">
-          <h1 class="text-white pt-3 mt-n5">Delete Dish Type?</h1>
+        <div class="col-lg-9 text-center mx-auto">
+          <h2 class="text-white pt-3 mt-n5">Delete {{ dishtype.name|slice:50 }} Dish Type?</h2>
           <form action="" method="post">
             {% csrf_token %}
               <input type="submit" value="Yes" class="btn bg-gradient-primary me-4">
