@@ -38,7 +38,7 @@ class PrivateDishFormat(TestCase):
                 description="Test Dish description",
                 price=0.01,
                 dish_type=dish_type,
-         )
+            )
 
     def test_retrieve_dish_formats(self):
         """
