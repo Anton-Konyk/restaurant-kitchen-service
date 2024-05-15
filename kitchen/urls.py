@@ -22,7 +22,6 @@ from kitchen.views import (
     CookCreateView,
     CookDetailView,
     CookDeleteView,
-    toggle_assign_dish_to_cook,
     CookUpdateView,
     DishListView,
     DishCreateView,
@@ -32,6 +31,7 @@ from kitchen.views import (
     toggle_assign_cook_to_dish,
     IngredientDetailView,
     DishTypeDetailView,
+    toggle_assign_dish_to_cook_delete,
 )
 
 urlpatterns = [
@@ -129,10 +129,15 @@ urlpatterns = [
         CookDeleteView.as_view(),
         name="cook-delete"
     ),
+    # path(
+    #     "cooks/<int:pk>/<int:dish_id>/<int:current_page/toggle-assign/",
+    #     toggle_assign_cook_to_dish,
+    #     name="toggle_assign_dish_to_cook"
+    # ),
     path(
-        "cooks/<int:pk>/<int:cook_id>/toggle-assign/",
-        toggle_assign_dish_to_cook,
-        name="toggle-dish-to-cook-assign"
+        "cooks/<int:pk>/<int:cook_id>/toggle-delete/",
+        toggle_assign_dish_to_cook_delete,
+        name="toggle-dish-to-cook-delete"
     ),
 
     path("dishes/", DishListView.as_view(), name="dish-list"),
@@ -153,7 +158,7 @@ urlpatterns = [
         name="dish-detail"
     ),
     path(
-        "dishes/<int:pk>/<int:dish_id>/toggle-assign/",
+        "dishes/<int:pk>/<int:dish_id>/<int:current_page>/toggle-assign/",
         toggle_assign_cook_to_dish,
         name="toggle-cook-to-dish-assign"
     ),
