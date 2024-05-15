@@ -13,7 +13,7 @@
        style="background-image: url('{% static 'img/curved-images/8810183.jpg' %}')">
     <div class="container">
       <div class="row">
-        <div class="col-lg-7 text-center mx-auto">
+        <div class="col-lg-8 text-center mx-auto">
           <h2 class="text-white pt-4 mt-n5">Dish List</h2>
             
             <div class="row text-center py-2 mt-3 align-items-center">
@@ -52,13 +52,15 @@
                   <td>
                     {{ dish.id }}
                   </td>
-                  <td>
-                    <a href="{{ dish.get_absolute_url }}">{{ dish.name|slice:30 }}</a>
+                  <td class="element-slice">
+                    <a href="{{ dish.get_absolute_url }}" \
+                       data-bs-toggle="tooltip" \
+                       title="{{  dish.name }}">{{ dish.name }}</a>
                   </td>
                   <td>
                     {{ dish.price }}
                   </td>
-                  <td class="element-slice">
+                  <td class="element-slice" data-bs-toggle="tooltip" title="{{ dish.dish_type.name }}">
                     {{ dish.dish_type.name }}
                   </td>
                   <td>

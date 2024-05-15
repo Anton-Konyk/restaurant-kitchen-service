@@ -46,8 +46,9 @@
                   <td>
                     {{ ingredient.id }}
                   </td>
-                  <td>
-                    <a href="{{ ingredient.get_absolute_url }}">{{ ingredient.name|slice:50 }}</a>
+                  <td   class="element-slice">
+                    <a href="{{ ingredient.get_absolute_url }}" data-bs-toggle="tooltip" title="{{ ingredient.name }}">
+                      {{ ingredient.name }}</a>
                   </td>
                   <td>
                     <a href="{% url 'kitchen:ingredient-update' pk=ingredient.id %}">

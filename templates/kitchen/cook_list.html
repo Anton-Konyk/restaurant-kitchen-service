@@ -50,14 +50,15 @@
                   <td>
                     {{ cook.id }}
                   </td>
-                  <td>
-                    <a href="{{ cook.get_absolute_url }}">{{ cook.username|slice:":17" }} {% if user == cook %} (Me){% endif %}</a>
+                  <td  class="element-slice">
+                    <a href="{{ cook.get_absolute_url }}" data-bs-toggle="tooltip" title="{{ cook.username }}">
+                      {{ cook.username }} {% if user == cook %} (Me){% endif %}</a>
                   </td>
-                  <td>
-                    {{ cook.first_name|slice:":17" }}
+                  <td  class="element-slice" data-bs-toggle="tooltip" title="{{ cook.first_name }}">
+                    {{ cook.first_name }}
                   </td>
-                  <td>
-                    {{ cook.last_name|slice:":17" }}
+                  <td  class="element-slice" data-bs-toggle="tooltip" title="{{ cook.last_name }}">
+                    {{ cook.last_name }}
                   </td>
                   <td>
                     {{ cook.prax_years }}
