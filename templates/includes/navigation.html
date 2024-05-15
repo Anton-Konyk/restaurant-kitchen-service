@@ -8,7 +8,7 @@
         <div class="container-fluid px-0">
           {% if user.is_authenticated %}
             <a class="navbar-brand font-weight-bolder ms-sm-3 "
-              href="{% url 'kitchen:index' %}" rel="tooltip" 
+              href="{% url 'kitchen:index' %}" data-bs-toggle="tooltip"
               title="Go Home page" data-placement="bottom">
               User: {{ user.get_username }}
             </a>
