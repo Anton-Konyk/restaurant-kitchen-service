@@ -55,4 +55,4 @@ class DishCreationFormTest(TestCase):
             "price": -0.01,
         }
         form = DishCreationForm(data=form_data)
-        self.assertTrue(not(form.is_valid()))
+        self.assertTrue(not form.is_valid())

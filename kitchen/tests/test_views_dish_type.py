@@ -31,7 +31,7 @@ class PrivateDishTypeFormat(TestCase):
         self.client.force_login(self.user)
 
         for dish_type_id in range(number_of_ingredients):
-            dish_type = DishType.objects.create(
+            DishType.objects.create(
                 name=f"Test-name {dish_type_id}",
             )
 

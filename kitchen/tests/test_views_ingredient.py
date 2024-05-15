@@ -32,7 +32,7 @@ class PrivateIngredientFormat(TestCase):
         self.client.force_login(self.user)
 
         for ingredient_id in range(number_of_ingredients):
-            ingredient = Ingredient.objects.create(
+            Ingredient.objects.create(
                 name=f"Test-name {ingredient_id}",
             )
 

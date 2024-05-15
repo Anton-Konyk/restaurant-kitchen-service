@@ -420,4 +420,4 @@ def toggle_assign_cook_to_dish(request, pk, dish_id, current_page):
 
     return HttpResponseRedirect(reverse_lazy(
         "kitchen:dish-list") + f"?page={current_page}"
-        )
+    )

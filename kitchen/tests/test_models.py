@@ -43,7 +43,7 @@ class ModelsTests(TestCase):
             description="Test Dish description",
             price=0.01,
             dish_type=dish_type,
-         )
+        )
         self.assertEqual(
             str(dish_format),
             dish_format.name

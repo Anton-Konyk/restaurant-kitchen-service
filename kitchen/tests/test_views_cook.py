@@ -73,26 +73,32 @@ class TestToggleAssignCookToDish(TestCase):
             name="Test Dish Type"
         )
         self.dish = Dish.objects.create(
-                name="Test Dish",
-                description="Test Dish description",
-                price=0.01,
-                dish_type=dish_type,
-            )
+            name="Test Dish",
+            description="Test Dish description",
+            price=0.01,
+            dish_type=dish_type,
+        )
 
     def test_toggle_assign_to_car(self):
         self.assertNotIn(self.user, self.dish.cooks.all())
         # response
         self.client.post(
             reverse("kitchen:toggle-cook-to-dish-assign",
-                    kwargs={"pk": self.user.pk, "dish_id": self.dish.pk, "current_page": 1}
+                    kwargs={"pk": self.user.pk,
+                            "dish_id": self.dish.pk,
+                            "current_page": 1
+                            }
                     )
-            )
+        )
         self.user.refresh_from_db()
         self.assertIn(self.user, self.dish.cooks.all())
         # response
         self.client.post(
             reverse("kitchen:toggle-cook-to-dish-assign",
-                    kwargs={"pk": self.user.pk, "dish_id": self.dish.pk, "current_page": 1}
+                    kwargs={"pk": self.user.pk,
+                            "dish_id": self.dish.pk,
+                            "current_page": 1
+                            }
                     )
         )
         self.user.refresh_from_db()
@@ -105,6 +111,6 @@ class TestToggleAssignCookToDish(TestCase):
             reverse("kitchen:toggle-dish-to-cook-delete",
                     kwargs={"pk": self.dish.pk, "cook_id": self.user.pk}
                     )
-            )
+        )
         self.user.refresh_from_db()
         self.assertNotIn(self.user, self.dish.cooks.all())

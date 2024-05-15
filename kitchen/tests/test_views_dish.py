@@ -33,7 +33,7 @@ class PrivateDishFormat(TestCase):
             name="Test Dish Type"
         )
         for dish_id in range(number_of_ingredients):
-            dish = Dish.objects.create(
+            Dish.objects.create(
                 name=f"Test Dish {dish_id}",
                 description="Test Dish description",
                 price=0.01,
