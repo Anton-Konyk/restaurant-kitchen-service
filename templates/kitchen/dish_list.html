@@ -42,6 +42,9 @@
                 <th>Cooks</th>
                 <th>Update</th>
                 <th>Delete</th>
+                {% if request.resolver_match.kwargs.pk == user.id or request.resolver_match.kwargs.pk == None %}
+                  <th>Cooking</th>
+                {% endif %}  
               </tr>
 
               {% for dish in dish_list %}
@@ -50,13 +53,13 @@
                     {{ dish.id }}
                   </td>
                   <td>
-                    <a href="{{ dish.get_absolute_url }}">{{ dish.name|slice:40 }}</a>
+                    <a href="{{ dish.get_absolute_url }}">{{ dish.name|slice:30 }}</a>
                   </td>
                   <td>
                     {{ dish.price }}
                   </td>
-                  <td>
-                    {{ dish.dish_type|slice:":20" }}
+                  <td class="element-slice">
+                    {{ dish.dish_type.name }}
                   </td>
                   <td>
                     {{ dish.cooks.count }}
@@ -72,6 +75,26 @@
                       Delete
                     </a>
                   </td>
+                  {% if request.resolver_match.kwargs.pk == user.id  or request.resolver_match.kwargs.pk == None %}
+                  <td>
+                    {% if dish in user.dishes.all %}
+                      <a style="color: red"
+                         {% if request.resolver_match.kwargs.pk == user.id %}
+                          href="{% url 'kitchen:toggle-dish-to-cook-delete' pk=dish.id cook_id=user.id %}">
+                          Remove
+                         {% else %}
+                          href="{% url 'kitchen:toggle-cook-to-dish-assign' pk=user.id dish_id=dish.id current_page=page_obj.number %}">
+                          Remove
+                         {% endif %}
+                      </a>
+                    {% else %}
+                      <a style="color: blue"
+                        href="{% url 'kitchen:toggle-cook-to-dish-assign' pk=user.id dish_id=dish.id current_page=page_obj.number %}">
+                        Assign me
+                      </a>
+                    {% endif %}
+                  </td>
+                  {% endif %}
                 </tr>
               {% endfor %}
             </table>
