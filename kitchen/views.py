@@ -396,28 +396,28 @@ def register(request):
 
 
 @login_required
-def toggle_assign_dish_to_cook(request, pk, cook_id):
+def toggle_assign_dish_to_cook_delete(request, pk, cook_id):
     cook = Cook.objects.get(id=cook_id)
     if (
         Dish.objects.get(id=pk) in cook.dishes.all()
     ):
         cook.dishes.remove(pk)
-    # else:
-    #     cook.dishes.add(pk)
     return HttpResponseRedirect(reverse_lazy(
         "kitchen:cook-detail",
-        args=[cook.id])
+        args=[cook_id])
     )
 
 
 @login_required
-def toggle_assign_cook_to_dish(request, pk, dish_id):
+def toggle_assign_cook_to_dish(request, pk, dish_id, current_page):
     dish = Dish.objects.get(id=dish_id)
     if (
         Cook.objects.get(id=pk) in dish.cooks.all()
     ):
         dish.cooks.remove(pk)
+    else:
+        dish.cooks.add(pk)
+
     return HttpResponseRedirect(reverse_lazy(
-        "kitchen:dish-detail",
-        args=[dish.id])
-    )
+        "kitchen:dish-list") + f"?page={current_page}"
+        )
