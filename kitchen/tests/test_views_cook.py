@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from kitchen.models import Cook
+from kitchen.models import Cook, DishType, Dish
 
 COOK_FORMAT_URL = reverse("kitchen:cook-list")
 
@@ -57,3 +57,54 @@ class PrivateCookFormat(TestCase):
         self.assertTrue("is_paginated" in response.context)
         self.assertTrue(response.context["is_paginated"])
         self.assertEqual(len(response.context["cook_list"]), 1)
+
+
+class TestToggleAssignCookToDish(TestCase):
+    def setUp(self):
+
+        self.user = get_user_model().objects.create_user(
+            username="test1",
+            password="test12345",
+            first_name="test_first1",
+            last_name="test_last1",
+        )
+        self.client.force_login(self.user)
+        dish_type = DishType.objects.create(
+            name="Test Dish Type"
+        )
+        self.dish = Dish.objects.create(
+                name="Test Dish",
+                description="Test Dish description",
+                price=0.01,
+                dish_type=dish_type,
+            )
+
+    def test_toggle_assign_to_car(self):
+        self.assertNotIn(self.user, self.dish.cooks.all())
+        # response
+        self.client.post(
+            reverse("kitchen:toggle-cook-to-dish-assign",
+                    kwargs={"pk": self.user.pk, "dish_id": self.dish.pk, "current_page": 1}
+                    )
+            )
+        self.user.refresh_from_db()
+        self.assertIn(self.user, self.dish.cooks.all())
+        # response
+        self.client.post(
+            reverse("kitchen:toggle-cook-to-dish-assign",
+                    kwargs={"pk": self.user.pk, "dish_id": self.dish.pk, "current_page": 1}
+                    )
+        )
+        self.user.refresh_from_db()
+        self.assertNotIn(self.user, self.dish.cooks.all())
+
+    def test_toggle_assign_dish_to_cook_delete(self):
+        self.user.dishes.add(self.dish.pk)
+        # response
+        self.client.post(
+            reverse("kitchen:toggle-dish-to-cook-delete",
+                    kwargs={"pk": self.dish.pk, "cook_id": self.user.pk}
+                    )
+            )
+        self.user.refresh_from_db()
+        self.assertNotIn(self.user, self.dish.cooks.all())
