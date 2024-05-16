@@ -352,4 +352,6 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django,pycharm+all
->>>>>>> c02e3b7 (add python, django and pycharm files to .gitignore)
+
+c02e3b7 (add python, django and pycharm files to .gitignore)
+main
