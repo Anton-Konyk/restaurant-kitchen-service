@@ -233,3 +233,9 @@ class DishSearchForm(forms.Form):
         label="",
         widget=forms.TextInput(attrs={"placeholder": "🔎 Search by name"}),
     )
+
+
+class ToggleDishToCookDeleteForm(forms.Form):
+    class Meta:
+        model = Dish
+        fields = "__all__"
