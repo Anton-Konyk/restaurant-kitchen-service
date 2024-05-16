@@ -25,7 +25,7 @@ from kitchen.forms import (UserLoginForm,
                            CookCreationForm,
                            CookForm,
                            DishSearchForm,
-                           DishCreationForm,
+                           DishCreationForm, ToggleDishToCookDeleteForm,
                            )
 from kitchen.models import Ingredient, DishType, Cook, Dish
 from restaurant_kitchen_service import settings
@@ -398,11 +398,14 @@ class RegisterView(View):
 
 
 class ToggleAssignDishToCookDeleteView(LoginRequiredMixin, View):
-    def get(self, request, pk, cook_id):
-        cook = Cook.objects.get(id=cook_id)
-        dish = Dish.objects.get(id=pk)
-        if dish in cook.dishes.all():
-            cook.dishes.remove(dish)
+    def post(self, request, pk, cook_id):
+        form = ToggleDishToCookDeleteForm(request.POST)
+
+        if form.is_valid():
+            cook = Cook.objects.get(id=cook_id)
+            dish = Dish.objects.get(id=pk)
+            if dish in cook.dishes.all():
+                cook.dishes.remove(dish)
         return HttpResponseRedirect(reverse_lazy(
             "kitchen:cook-detail",
             args=[cook_id])
@@ -410,13 +413,17 @@ class ToggleAssignDishToCookDeleteView(LoginRequiredMixin, View):
 
 
 class ToggleAssignCookToDishView(LoginRequiredMixin, View):
-    def get(self, request, pk, dish_id, current_page):
-        dish = Dish.objects.get(id=dish_id)
-        cook = Cook.objects.get(id=pk)
-        if cook in dish.cooks.all():
-            dish.cooks.remove(cook)
-        else:
-            dish.cooks.add(cook)
+    def post(self, request, pk, dish_id, current_page):
+        form = ToggleDishToCookDeleteForm(request.POST)
+        print("11")
+        if form.is_valid():
+            print("22")
+            dish = Dish.objects.get(id=dish_id)
+            cook = Cook.objects.get(id=pk)
+            if cook in dish.cooks.all():
+                dish.cooks.remove(cook)
+            else:
+                dish.cooks.add(cook)
         return HttpResponseRedirect(reverse_lazy(
             "kitchen:dish-list") + f"?page={current_page}"
         )

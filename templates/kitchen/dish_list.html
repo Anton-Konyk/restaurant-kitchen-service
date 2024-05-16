@@ -80,20 +80,22 @@
                   {% if request.resolver_match.kwargs.pk == user.id  or request.resolver_match.kwargs.pk == None %}
                   <td>
                     {% if dish in user.dishes.all %}
-                      <a style="color: red"
                          {% if request.resolver_match.kwargs.pk == user.id %}
-                          href="{% url 'kitchen:toggle-dish-to-cook-delete' pk=dish.id cook_id=user.id %}">
-                          Remove
+                           <form action="{% url 'kitchen:toggle-dish-to-cook-delete' pk=dish.id cook_id=user.id %}" method="post" novalidate>
+                             {% csrf_token %}
+                             <input type="submit" value="Remove" class="btn btn-primary btn-sm mb-0">
+                           </form>
                          {% else %}
-                          href="{% url 'kitchen:toggle-cook-to-dish-assign' pk=user.id dish_id=dish.id current_page=page_obj.number %}">
-                          Remove
+                           <form action="{% url 'kitchen:toggle-cook-to-dish-assign' pk=user.id dish_id=dish.id current_page=page_obj.number %}" method="post" novalidate>
+                             {% csrf_token %}
+                             <input type="submit" value="Remove" class="btn btn-primary btn-sm mb-0"> 
+                           </form>
                          {% endif %}
-                      </a>
                     {% else %}
-                      <a style="color: blue"
-                        href="{% url 'kitchen:toggle-cook-to-dish-assign' pk=user.id dish_id=dish.id current_page=page_obj.number %}">
-                        Assign me
-                      </a>
+                      <form action="{% url 'kitchen:toggle-cook-to-dish-assign' pk=user.id dish_id=dish.id current_page=page_obj.number %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="Assign me" class="btn bg-gradient-info btn-sm mb-0">
+                      </form>
                     {% endif %}
                   </td>
                   {% endif %}
