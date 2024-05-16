@@ -82,7 +82,7 @@ class TestToggleAssignCookToDish(TestCase):
     def test_toggle_assign_to_car(self):
         self.assertNotIn(self.user, self.dish.cooks.all())
         # response
-        self.client.post(
+        self.client.get(
             reverse("kitchen:toggle-cook-to-dish-assign",
                     kwargs={"pk": self.user.pk,
                             "dish_id": self.dish.pk,
@@ -93,7 +93,7 @@ class TestToggleAssignCookToDish(TestCase):
         self.user.refresh_from_db()
         self.assertIn(self.user, self.dish.cooks.all())
         # response
-        self.client.post(
+        self.client.get(
             reverse("kitchen:toggle-cook-to-dish-assign",
                     kwargs={"pk": self.user.pk,
                             "dish_id": self.dish.pk,
@@ -107,7 +107,7 @@ class TestToggleAssignCookToDish(TestCase):
     def test_toggle_assign_dish_to_cook_delete(self):
         self.user.dishes.add(self.dish.pk)
         # response
-        self.client.post(
+        self.client.get(
             reverse("kitchen:toggle-dish-to-cook-delete",
                     kwargs={"pk": self.dish.pk, "cook_id": self.user.pk}
                     )
