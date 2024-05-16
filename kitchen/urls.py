@@ -129,11 +129,6 @@ urlpatterns = [
         CookDeleteView.as_view(),
         name="cook-delete"
     ),
-    # path(
-    #     "cooks/<int:pk>/<int:dish_id>/<int:current_page/toggle-assign/",
-    #     toggle_assign_cook_to_dish,
-    #     name="toggle_assign_dish_to_cook"
-    # ),
     path(
         "cooks/<int:pk>/<int:cook_id>/toggle-delete/",
         toggle_assign_dish_to_cook_delete,
