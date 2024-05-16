@@ -11,7 +11,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views import generic
+from django.views import generic, View
 from django.views.generic import TemplateView
 from django.utils.translation import gettext as _
 
@@ -379,8 +379,13 @@ class PasswordChangeDoneView(PasswordContextMixin, TemplateView):
         return super().dispatch(*args, **kwargs)
 
 
-def register(request):
-    if request.method == "POST":
+class RegisterView(View):
+    def get(self, request):
+        form = RegistrationForm()
+        context = {"form": form}
+        return render(request, 'accounts/sign-up.html', context)
+
+    def post(self, request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -388,36 +393,30 @@ def register(request):
             return redirect('/accounts/login')
         else:
             print("Registration failed!")
-    else:
-        form = RegistrationForm()
-
-    context = {"form": form}
-    return render(request, 'accounts/sign-up.html', context)
+            context = {"form": form}
+            return render(request, 'accounts/sign-up.html', context)
 
 
-@login_required
-def toggle_assign_dish_to_cook_delete(request, pk, cook_id):
-    cook = Cook.objects.get(id=cook_id)
-    if (
-        Dish.objects.get(id=pk) in cook.dishes.all()
-    ):
-        cook.dishes.remove(pk)
-    return HttpResponseRedirect(reverse_lazy(
-        "kitchen:cook-detail",
-        args=[cook_id])
-    )
+class ToggleAssignDishToCookDeleteView(LoginRequiredMixin, View):
+    def get(self, request, pk, cook_id):
+        cook = Cook.objects.get(id=cook_id)
+        dish = Dish.objects.get(id=pk)
+        if dish in cook.dishes.all():
+            cook.dishes.remove(dish)
+        return HttpResponseRedirect(reverse_lazy(
+            "kitchen:cook-detail",
+            args=[cook_id])
+        )
 
 
-@login_required
-def toggle_assign_cook_to_dish(request, pk, dish_id, current_page):
-    dish = Dish.objects.get(id=dish_id)
-    if (
-        Cook.objects.get(id=pk) in dish.cooks.all()
-    ):
-        dish.cooks.remove(pk)
-    else:
-        dish.cooks.add(pk)
-
-    return HttpResponseRedirect(reverse_lazy(
-        "kitchen:dish-list") + f"?page={current_page}"
-    )
+class ToggleAssignCookToDishView(LoginRequiredMixin, View):
+    def get(self, request, pk, dish_id, current_page):
+        dish = Dish.objects.get(id=dish_id)
+        cook = Cook.objects.get(id=pk)
+        if cook in dish.cooks.all():
+            dish.cooks.remove(cook)
+        else:
+            dish.cooks.add(cook)
+        return HttpResponseRedirect(reverse_lazy(
+            "kitchen:dish-list") + f"?page={current_page}"
+        )
