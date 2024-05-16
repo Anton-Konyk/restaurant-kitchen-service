@@ -28,10 +28,11 @@ from kitchen.views import (
     DishUpdateView,
     DishDeleteView,
     DishDetailView,
-    toggle_assign_cook_to_dish,
     IngredientDetailView,
     DishTypeDetailView,
-    toggle_assign_dish_to_cook_delete,
+    RegisterView,
+    ToggleAssignDishToCookDeleteView,
+    ToggleAssignCookToDishView,
 )
 
 urlpatterns = [
@@ -71,7 +72,7 @@ urlpatterns = [
         ),
         name="password_reset_complete"
     ),
-    path("accounts/register/", views.register, name="register"),
+    path("accounts/register/", RegisterView.as_view(), name="register"),
 
     path("ingredients/", IngredientListView.as_view(), name="ingredient-list"),
     path(
@@ -131,7 +132,7 @@ urlpatterns = [
     ),
     path(
         "cooks/<int:pk>/<int:cook_id>/toggle-delete/",
-        toggle_assign_dish_to_cook_delete,
+        ToggleAssignDishToCookDeleteView.as_view(),
         name="toggle-dish-to-cook-delete"
     ),
 
@@ -154,7 +155,7 @@ urlpatterns = [
     ),
     path(
         "dishes/<int:pk>/<int:dish_id>/<int:current_page>/toggle-assign/",
-        toggle_assign_cook_to_dish,
+        ToggleAssignCookToDishView.as_view(),
         name="toggle-cook-to-dish-assign"
     ),
 ]
