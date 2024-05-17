@@ -415,9 +415,8 @@ class ToggleAssignDishToCookDeleteView(LoginRequiredMixin, View):
 class ToggleAssignCookToDishView(LoginRequiredMixin, View):
     def post(self, request, pk, dish_id, current_page):
         form = ToggleDishToCookDeleteForm(request.POST)
-        print("11")
+
         if form.is_valid():
-            print("22")
             dish = Dish.objects.get(id=dish_id)
             cook = Cook.objects.get(id=pk)
             if cook in dish.cooks.all():
